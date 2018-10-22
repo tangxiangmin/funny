@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'index.dart';
 
 class LoginPage extends StatelessWidget {
     LoginPage({Key key}) : super(key: key);
@@ -6,8 +7,12 @@ class LoginPage extends StatelessWidget {
     @override
     Widget build(BuildContext context) {
         void submit(){
-
+            Navigator.push(
+                context,
+                new MaterialPageRoute(builder: (context) => new IndexPage()),
+            );
         }
+
         Widget login = new Center(
             child: new Container(
                 width: 300.0,
@@ -17,10 +22,18 @@ class LoginPage extends StatelessWidget {
                 child: new Column(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: <Widget>[
-                        new Image.network(
-                            'http://dummyimage.com/200x200/FF6600',
+                        new Container(
+                            width: 100.0,
                             height: 100.0,
-                            fit: BoxFit.cover,
+                            decoration: new BoxDecoration(
+                                color: const Color(0xff7c94b6),
+                                image: new DecorationImage(
+                                    image: new NetworkImage('http://dummyimage.com/200x200/FF6600'),
+                                    fit: BoxFit.cover,
+                                ),
+                                borderRadius: new BorderRadius.all(new Radius.circular(50.0)),
+
+                            ),
                         ),
                         new TextField(
                             decoration: InputDecoration(
@@ -38,7 +51,7 @@ class LoginPage extends StatelessWidget {
                             onPressed: submit,
                             child: new Text('确认登录'),
                             textColor: Colors.white,
-                            color: Colors.yellow
+                            color: Colors.blue
                         )
                     ],
                 ),)

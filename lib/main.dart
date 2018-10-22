@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 //import '1.dart';
 import '2.dart';
 import 'login.dart';
+import 'my.dart';
 
 void main() => runApp(new MyApp());
 
