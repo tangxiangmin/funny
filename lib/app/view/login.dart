@@ -1,16 +1,15 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_app/page/index.dart';
-import './index.dart';
+import 'package:flutter_app/home.dart';
 
 class LoginPage extends StatelessWidget {
     LoginPage({Key key}) : super(key: key);
 
     @override
     Widget build(BuildContext context) {
-        void submit(){
+        void submit() {
             Navigator.push(
                 context,
-                new MaterialPageRoute(builder: (context) => new IndexPage()),
+                new MaterialPageRoute(builder: (context) => new FunApp()),
             );
         }
 
@@ -29,10 +28,12 @@ class LoginPage extends StatelessWidget {
                             decoration: new BoxDecoration(
                                 color: const Color(0xff7c94b6),
                                 image: new DecorationImage(
-                                    image: new NetworkImage('http://dummyimage.com/200x200/FF6600'),
+                                    image: new NetworkImage(
+                                        'http://dummyimage.com/200x200/FF6600'),
                                     fit: BoxFit.cover,
                                 ),
-                                borderRadius: new BorderRadius.all(new Radius.circular(50.0)),
+                                borderRadius: new BorderRadius.all(
+                                    new Radius.circular(50.0)),
 
                             ),
                         ),

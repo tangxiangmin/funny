@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
 
-import 'tabPage.dart';
-
-class MyPage extends TabPage {
-    MyPage({Key key});
-
+class MyPage extends StatefulWidget {
     @override
-    Widget getPageBody() {
+    MyState createState() => new MyState();
+}
+
+class MyState extends State<MyPage> {
+    @override
+    Widget build(BuildContext context) {
         Widget createListItem(icon, text) {
             return new Container(
                 margin: EdgeInsets.only(bottom: 10.0),
@@ -40,7 +41,7 @@ class MyPage extends TabPage {
                                 new Text('登录/注册',
                                     textAlign: TextAlign.left,
                                 ),
-                                new Text('欢迎来到嘻fun', textAlign: TextAlign.left,)
+                                new Text('欢迎您', textAlign: TextAlign.left,)
                             ],
                         ),
                         new Icon(Icons.arrow_forward_ios)
@@ -48,7 +49,6 @@ class MyPage extends TabPage {
                     new Container(
                         margin: EdgeInsets.only(top: 20.0, bottom: 20.0),
                         padding: const EdgeInsets.only(bottom: 10.0),
-
                         decoration: new BoxDecoration(
                             border: new Border(
                                 bottom: BorderSide(
@@ -89,6 +89,12 @@ class MyPage extends TabPage {
 
                 ]
             ),);
-        return my;
+
+        return new Scaffold(
+            appBar: new AppBar(
+                title: new Text('个人中心'),
+            ),
+            body: my
+        );
     }
 }
