@@ -11,7 +11,6 @@ class JokeItem extends StatefulWidget {
 }
 
 class JokeItemSate extends State<JokeItem> {
-
     @override
     void initState() {
         super.initState();
@@ -20,6 +19,10 @@ class JokeItemSate extends State<JokeItem> {
 
     @override
     Widget build(BuildContext context) {
+        var joke = widget.joke;
+        var author = joke.author;
+        var detail = joke.joke;
+
         return new Container(
             color: Colors.white,
             padding: const EdgeInsets.all(20.0),
@@ -33,14 +36,14 @@ class JokeItemSate extends State<JokeItem> {
                             children: <Widget>[
                                 new Row(children: <Widget>[
                                     new Image.network(
-                                        'http://dummyimage.com/200x200/FF6600',
+                                        author.avatar,
                                         height: 50.0,
                                         fit: BoxFit.cover,
                                     ),
                                     new Container(
                                         margin: const EdgeInsets.only(
                                             left: 10.0),
-                                        child: new Text('用户名'),)
+                                        child: new Text(author.nickname),)
                                     ,
                                 ],),
                                 new Icon(Icons.close)
@@ -49,10 +52,7 @@ class JokeItemSate extends State<JokeItem> {
                     new Container(
                         padding: const EdgeInsets.only(
                             top: 10.0, bottom: 10.0),
-                        child: new Text(
-                            '''
-121232111 Oeschinen lies at the foot of the Blüemlisalp in the Bernese Alps. Situated 1,578 meters above sea level, it is one of the larger Alpine Lakes. A gondola ride from Kandersteg, followed by a half-hour walk through pastures and pine forest, leads you to the lake, which warms to 20 degrees Celsius in the summer. Activities enjoyed here include rowing, and riding the summer toboggan run.
-        ''', softWrap: true,),
+                        child: new Text(detail.content, softWrap: true,),
                     ),
                     new Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -60,12 +60,12 @@ class JokeItemSate extends State<JokeItem> {
                             new Row(children: <Widget>[
                                 new Icon(Icons.thumb_up,
                                     color: Colors.grey,),
-                                new Text('20')
+                                new Text(joke.likeNum.toString())
                             ],),
                             new Row(children: <Widget>[
                                 new Icon(
                                     Icons.comment, color: Colors.grey),
-                                new Text('20')
+                                new Text(joke.commentNum.toString())
                             ],),
                             new Row(children: <Widget>[
                                 new Icon(

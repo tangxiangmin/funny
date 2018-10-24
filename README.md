@@ -6,7 +6,31 @@
 ## 语法
 flutter采用[Dart](http://dart.goodev.org/)作为开发语言，这门语言使用起来比较有趣。
 
-## 安装到iPhone真机
+## 遇见的问题
+
+### 解析JSON
+解析json时报错
+> Unhandled exception: type 'List<dynamic>' is not a subtype of type 'List<JokeModel>'
+```dart
+static List<JokeModel> fromJson(String data) {
+    return json.decode(data)['data']
+        .map((obj) => JokeModel.fromMap(obj))
+        .toList();
+}
+```
+这是因为默认map解析的List类型是List<dynamic>，解决办法是指定map类型
+
+```dart
+static List<JokeModel> fromJson(String data) {
+    return json.decode(data)['data']
+        .map<JokeModel>((obj) => JokeModel.fromMap(obj))
+        .toList();
+}
+```
+参考：
+* [issue#17008](https://github.com/flutter/flutter/issues/17008)
+
+### 安装到iPhone真机
 
 首先需要配置环境变量啥的，以及XCode。
 ```
