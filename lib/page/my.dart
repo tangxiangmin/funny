@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 
-class MyPage extends StatelessWidget {
-    MyPage({Key key}) : super(key: key);
+import 'tabPage.dart';
+
+class MyPage extends TabPage {
+    MyPage({Key key});
 
     @override
-    Widget build(BuildContext context) {
+    Widget getPageBody() {
         Widget createListItem(icon, text) {
             return new Container(
                 margin: EdgeInsets.only(bottom: 10.0),
@@ -87,35 +89,6 @@ class MyPage extends StatelessWidget {
 
                 ]
             ),);
-        Widget createNavIcon(icon) {
-            return new Column(
-                mainAxisSize: MainAxisSize.min,
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: <Widget>[
-                    new Icon(icon, color: Colors.yellow),
-                ],
-            );
-        }
-
-
-        return new Scaffold(
-            appBar: new AppBar(
-                title: new Text('Index'),
-            ),
-            bottomNavigationBar: new BottomNavigationBar(
-                type: BottomNavigationBarType.fixed,
-                items: [
-                    new BottomNavigationBarItem(
-                        icon: createNavIcon(Icons.home),
-                        title: new Text('首页')
-                    ),
-                    new BottomNavigationBarItem(
-                        icon: createNavIcon(Icons.person),
-                        title: new Text('我的')
-                    )
-                ],
-            ),
-            body: my
-        );
+        return my;
     }
 }
