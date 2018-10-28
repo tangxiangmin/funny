@@ -5,6 +5,12 @@ import 'package:flutter_app/app/components/icon_tab.dart';
 import 'package:flutter_app/app/view/index.dart';
 import 'package:flutter_app/app/view/my.dart';
 
+
+const TAB_INDEX = {
+    'home': 0,
+    'my': 1,
+};
+
 class FunApp extends StatefulWidget {
     @override
     HomeState createState() => new HomeState();
@@ -14,13 +20,13 @@ class HomeState extends State<FunApp> with SingleTickerProviderStateMixin {
     int _currentIndex = 0;
     TabController _controller;
     VoidCallback onChanged;
-
+    
     @override
     void initState() {
         super.initState();
 
         _controller =
-        new TabController(initialIndex: _currentIndex, length: 4, vsync: this);
+        new TabController(initialIndex: _currentIndex, length: 2, vsync: this);
         onChanged = () {
             setState(() {
                 _currentIndex = this._controller.index;
@@ -46,12 +52,12 @@ class HomeState extends State<FunApp> with SingleTickerProviderStateMixin {
                 labelStyle: new TextStyle(fontSize: 12.0),
                 tabs: <IconTab>[
                     new IconTab(
-                        icon: 'assets/images/ic_main_tab_company_pre.png',
+                        icon: _currentIndex == TAB_INDEX['home'] ? 'assets/img/ic_main_tab_company_pre.png' : 'assets/img/ic_main_tab_company_nor.png',
                         text: "职位",
                         color: Colors.grey[900]
                     ),
                     new IconTab(
-                        icon: 'assets/images/ic_main_tab_my_pre.png',
+                        icon: _currentIndex == TAB_INDEX['my'] ? 'assets/img/ic_main_tab_my_pre.png' : 'assets/img/ic_main_tab_my_nor.png',
                         text: "我的",
                         color: Colors.grey[900]
                     ),

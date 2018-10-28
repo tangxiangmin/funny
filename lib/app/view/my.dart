@@ -92,6 +92,7 @@ class MyState extends State<MyPage> {
 
         return new Scaffold(
             appBar: new AppBar(
+                elevation: 0.0,
                 title: new Text('个人中心'),
             ),
             body: my

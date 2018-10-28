@@ -8,11 +8,26 @@ flutter采用[Dart](http://dart.goodev.org/)作为开发语言，这门语言使
 
 ## 遇见的问题
 
+### 本地图片资源加载失败
+原来本地图片需要在`pubsepc.yaml`中进行声明
+
+```
+flutter:
+  assets:
+    - assets/img/ic_main_tab_company_pre.png
+    - assets/img/ic_main_tab_my_pre.png
+```
+
+参考
+* [在Flutter中添加资源和图片](https://flutterchina.club/assets-and-images/#from-packages)
+
 ### 解析JSON
+
 解析json时报错
 > Unhandled exception: type 'List<dynamic>' is not a subtype of type 'List<JokeModel>'
 ```dart
 static List<JokeModel> fromJson(String data) {
+    // 这里还需要注意 dart:io包里面的json是小写了，之前找到有示例代码是JSON会提示undefined
     return json.decode(data)['data']
         .map((obj) => JokeModel.fromMap(obj))
         .toList();
