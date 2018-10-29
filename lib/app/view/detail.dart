@@ -1,12 +1,43 @@
 import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
+import 'package:flutter_app/app/model/joke.dart';
 
-class TextDetailPage extends StatelessWidget {
-    TextDetailPage({Key key}) : super(key: key);
 
-    Widget buildTextField(TextEditingController controller) {
-        return TextField(
-            controller: controller,
-        );
+class TextDetailPage extends StatefulWidget {
+//    TextDetailPage({Key key}) : super(key: key);
+
+    final int id;
+
+    TextDetailPage(this.id);
+
+
+    @override
+    TextDetailSate createState() => new TextDetailSate();
+}
+
+class TextDetailSate extends State<TextDetailPage> {
+    List<JokeModel> _jokes = [];
+
+    @override
+    void initState() {
+        super.initState();
+//        this.getDetail();
+        // todo 接收传递过来的内容数据
+    }
+
+    void getDetail() {
+        var id = widget.id;
+        print(id);
+
+        http.get("http://45.40.194.188:7654/jokeList")
+            .then((http.Response response) {
+            print('request back');
+            var res = response.body;
+            setState(() {
+                _jokes = JokeModel.fromJson(res);
+            });
+        });
+
     }
 
     @override
@@ -23,7 +54,6 @@ class TextDetailPage extends StatelessWidget {
         Widget header = new Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: <Widget>[
-                new Icon(Icons.arrow_back_ios),
                 new Image.network(
                     'http://dummyimage.com/200x200/FF6600',
                     height: 50.0,
@@ -44,32 +74,40 @@ class TextDetailPage extends StatelessWidget {
             ],
         );
         Widget detail = new Container(
+            padding: const EdgeInsets.only(
+                top: 20.0, bottom: 20.0),
             child:
             new Text(
                 'ad发大发阿凡达发大水发士大夫答复答复爱迪生发 阿斯蒂芬大师傅答复爱迪生范德萨发ad发大发阿凡达发大水发士大夫答复答复爱迪生发 阿斯蒂芬大师傅答复爱迪生范德萨发ad发大发阿凡达发大水发士大夫答复答复爱迪生发 阿斯蒂芬大师傅答复爱迪生范德萨发'),
         );
 
-        Widget createCommentItem(){
-            return new Row(
-                children: <Widget>[
-                    new Image.network(
-                        'http://dummyimage.com/200x200/FF6600',
-                        height: 50.0,
-                        fit: BoxFit.cover,
-                    ),
-                    new Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: <Widget>[
-                            new Row(
-                                children: <Widget>[
-                                    new Text('用户名想 想想想'),
-                                    new Icon(Icons.thumb_up)
-                                ],
+        Widget createCommentItem() {
+            return new Container(
+                margin: const EdgeInsets.only(bottom: 20.0),
+                child: new Row(
+                    children: <Widget>[
+                        new Container(
+                            margin: const EdgeInsets.only(right: 20.0),
+                            child: new Image.network(
+                                'http://dummyimage.com/200x200/FF6600',
+                                height: 60.0,
+                                fit: BoxFit.cover,
                             ),
-                            new Text('评论内容评论内容评论内容'),
-                            new Text('9小时前'),
-                        ],)
-                ],
+                        ),
+                        new Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: <Widget>[
+                                new Row(
+                                    children: <Widget>[
+                                        new Text('用户名想 想想想'),
+//                                        new Icon(Icons.thumb_up)
+                                    ],
+                                ),
+                                new Text('评论内容评论内容评论内容'),
+                                new Text('9小时前'),
+                            ],)
+                    ],)
+
             );
         }
 
@@ -131,4 +169,5 @@ class TextDetailPage extends StatelessWidget {
                 ),)
         );
     }
+
 }

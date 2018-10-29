@@ -6,7 +6,56 @@
 ## 语法
 flutter采用[Dart](http://dart.goodev.org/)作为开发语言，这门语言使用起来比较有趣。
 
+
+
+## 生命周期
+
+flutter是有生命周期的，大致生命周期可以分为
+- initState : 初始化widget的时候调用，只会调用一次。
+- build : 初始化之后开始绘制界面，当setState触发的时候会再次被调用
+- didUpdateWidget : 当触发setState时，会被调用
+- dispose : 页面销毁的时候调用
+
+不同的生命钩子函数中可以做对应的逻辑处理，比如`initState`就可以用作数据初始化等操作
+
+## 网络
+网络请求可以直接使用http库进行
+```dart
+import 'package:http/http.dart' as http;
+
+http.get("http://localhost:7654/jokeList/").then((http.Response response) {
+    var res = response.body;
+}
+```
+
 ## 遇见的问题
+下面是遇见的一些问题，按时间倒序排列
+### ListView滑动感觉比较卡顿
+这个是因为安装的debug的缘故，安装release包就可以体验如丝般顺滑的体验。
+```
+flutter build ios --release
+```
+然后`open ios/Runner.xcworkspace`将release包安装在手机上即可
+
+### 包引入路径错误导致代码报错
+```
+import 'package:flutter_app/app/view//detail.dart';
+```
+上面面路径多写了一个`/`，导致无法调用正确的构造函数
+> No top-level method '' declared. Receiver: top-level，Tried calling: (12333)
+
+这里原本调用的是
+```dart
+new TextDetailPage(12333)
+```
+
+但是奇怪的是调整该模块的构造函数，不传递参数，则又调用正常了
+
+### flutter命令被阻塞
+在使用`flutter doctor`或者打包iOS真机包的时候遇见提示
+> Waiting for another flutter command to release the startup lock
+
+在使用了flutter命令或者程序异常退出后，可能会出现这种提示，这时需要等待其他flutter命令执行完毕，或者手动删除`<YOUR FLUTTER FOLDER>/bin/cache/lockfile`文件
 
 ### 本地图片资源加载失败
 原来本地图片需要在`pubsepc.yaml`中进行声明

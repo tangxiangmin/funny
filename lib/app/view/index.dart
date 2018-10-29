@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 
 import 'package:flutter_app/app/item/joke_item.dart';
 import 'package:flutter_app/app/model/joke.dart';
+import 'package:flutter_app/app/view/detail.dart';
 
+import 'package:http/http.dart' as http;
 
 class IndexPage extends StatefulWidget {
     @override
@@ -16,22 +18,78 @@ class HomeState extends State<IndexPage> {
     Widget buildJokeItem(BuildContext context, int index) {
         JokeModel joke = _jokes[index];
 
-
         return new GestureDetector(
             onTap: () {
-                showDialog(context: context,
-                    child: new AlertDialog(
-                        content: new Text(
-                            "尽情期待!",
-                            style: new TextStyle(fontSize: 20.0),
-                        )));
+                int id = joke.id;
+                Navigator.push(
+                    context,
+                    new MaterialPageRoute(
+                        builder: (context) => new TextDetailPage(id)),
+                );
+//                showDialog(context: context,
+//                    child: new AlertDialog(
+//                        content: new Text(
+//                            "敬请期待!",
+//                            style: new TextStyle(fontSize: 20.0),
+//                        )));
             },
             child: new JokeItem(joke)
         );
     }
 
+    void getJobList() {
+        setState(() {
+            http.get("http://45.40.194.188:7654/jokeList/")
+                .then((http.Response response) {
+                var res = response.body;
+                setState(() {
+                    _jokes = JokeModel.fromJson(res);
+                });
+            });
+
+
+//            _jokes = JokeModel.fromJson("""
+//          {
+//            "data": [
+//              {
+//                "id": 10000,
+//                "author": {
+//                    "uid": 9912,
+//                    "nickname": "@cname",
+//                    "avatar": "http://dummyimage.com/200x200/FF6600"
+//                },
+//                "joke": {
+//                    "content": "xxx",
+//                    "image": "http://dummyimage.com/200x200/FF6600"
+//                },
+//                "likeNum": 1,
+//                "dislikeNum": 12,
+//                "commentNum": 1
+//              },
+//              {
+//                "id": 1100,
+//                "author": {
+//                    "uid": 9912,
+//                    "nickname": "@cname",
+//                    "avatar": "http://dummyimage.com/200x200/FF6600"
+//                },
+//                "joke": {
+//                    "content": "xxx",
+//                    "image": "http://dummyimage.com/200x200/FF6600"
+//                },
+//                "likeNum": 1,
+//                "dislikeNum": 12,
+//                "commentNum": 1
+//              }
+//            ]
+//          }
+//      """);
+        });
+    }
+
     @override
     void initState() {
+        // 数据初始化函数
         super.initState();
         getJobList();
     }
@@ -53,44 +111,4 @@ class HomeState extends State<IndexPage> {
         );
     }
 
-    void getJobList() {
-        setState(() {
-            _jokes = JokeModel.fromJson("""
-          {
-            "data": [
-              {
-                "id": 10000,
-                "author": {
-                    "uid": 9912,
-                    "nickname": "@cname",
-                    "avatar": "http://dummyimage.com/200x200/FF6600"
-                },
-                "joke": {
-                    "content": "xxx",
-                    "image": "http://dummyimage.com/200x200/FF6600"
-                },
-                "likeNum": 1,
-                "dislikeNum": 12,
-                "commentNum": 1
-              },
-              {
-                "id": 1100,
-                "author": {
-                    "uid": 9912,
-                    "nickname": "@cname",
-                    "avatar": "http://dummyimage.com/200x200/FF6600"
-                },
-                "joke": {
-                    "content": "xxx",
-                    "image": "http://dummyimage.com/200x200/FF6600"
-                },
-                "likeNum": 1,
-                "dislikeNum": 12,
-                "commentNum": 1
-              }
-            ]
-          }
-      """);
-        });
-    }
 }
