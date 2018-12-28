@@ -46,44 +46,6 @@ class HomeState extends State<IndexPage> {
                     _jokes = JokeModel.fromJson(res);
                 });
             });
-
-
-//            _jokes = JokeModel.fromJson("""
-//          {
-//            "data": [
-//              {
-//                "id": 10000,
-//                "author": {
-//                    "uid": 9912,
-//                    "nickname": "@cname",
-//                    "avatar": "http://dummyimage.com/200x200/FF6600"
-//                },
-//                "joke": {
-//                    "content": "xxx",
-//                    "image": "http://dummyimage.com/200x200/FF6600"
-//                },
-//                "likeNum": 1,
-//                "dislikeNum": 12,
-//                "commentNum": 1
-//              },
-//              {
-//                "id": 1100,
-//                "author": {
-//                    "uid": 9912,
-//                    "nickname": "@cname",
-//                    "avatar": "http://dummyimage.com/200x200/FF6600"
-//                },
-//                "joke": {
-//                    "content": "xxx",
-//                    "image": "http://dummyimage.com/200x200/FF6600"
-//                },
-//                "likeNum": 1,
-//                "dislikeNum": 12,
-//                "commentNum": 1
-//              }
-//            ]
-//          }
-//      """);
         });
     }
 

@@ -30,6 +30,9 @@ http.get("http://localhost:7654/jokeList/").then((http.Response response) {
 
 ## 遇见的问题
 下面是遇见的一些问题，按时间倒序排列
+### 手写Model太麻烦了
+比较容易出错，可以使用[json_serializable](https://caijinglong.github.io/json2dart/index_ch.html)这个工具。
+
 ### ListView滑动感觉比较卡顿
 这个是因为安装的debug的缘故，安装release包就可以体验如丝般顺滑的体验。
 ```
@@ -50,7 +53,6 @@ new TextDetailPage(12333)
 ```
 
 但是奇怪的是调整该模块的构造函数，不传递参数，则又调用正常了
-
 ### flutter命令被阻塞
 在使用`flutter doctor`或者打包iOS真机包的时候遇见提示
 > Waiting for another flutter command to release the startup lock

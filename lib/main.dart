@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 
 import 'package:flutter_app/home.dart';
+import 'package:flutter/rendering.dart' show debugPaintSizeEnabled;
 
-void main() =>
+void main(){
+//    debugPaintSizeEnabled = true;
     runApp(new MaterialApp(
         title: 'Fun',
         theme: new ThemeData(
@@ -10,4 +12,7 @@ void main() =>
         ),
         home: new FunApp()
     ));
+
+}
+
 
