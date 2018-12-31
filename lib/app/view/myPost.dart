@@ -1,44 +1,57 @@
 import 'package:flutter/material.dart';
 
-class MyPost extends StatefulWidget {
-  const MyPost({Key key}) : super(key: key);
+import 'package:flutter_app/app/components/jokeList.dart';
 
+class MyPost extends StatelessWidget {
   @override
-  _MyPostState createState() => _MyPostState();
-}
-
-class _MyPostState extends State<MyPost> with SingleTickerProviderStateMixin {
-  TabController _tabController;
-  final List<Tab> myTabs = <Tab>[
-    Tab(text: 'LEFT'),
-    Tab(text: 'RIGHT'),
-  ];
-
-  @override
-  void initState() {
-    super.initState();
-    _tabController = TabController(vsync: this, length: myTabs.length);
-  }
-
-  // @override
-  // void dispose() {
-  //   _tabController.dispose();
-  //   super.dispose();
-  // }
-
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
-          title: Text('我的帖子'),
+      appBar: AppBar(
+        title: new Text('我的'),
+        bottom: TabBar(
+          isScrollable: true,
+          tabs: choices.map((Choice choice) {
+            return Tab(
+              text: choice.title,
+            );
+          }).toList(),
         ),
-        body: Container(
-            margin: EdgeInsets.only(top: 20.0, left: 10.0, right: 10.0),
-            child: TabBarView(
-              controller: _tabController,
-              
-              children: myTabs.map((Tab tab) {
-                return Center(child: Text(tab.text));
-              }).toList(),
-            )));
+      ),
+      body: TabBarView(
+        children: choices.map((Choice choice) {
+          return Padding(
+            padding: const EdgeInsets.all(16.0),
+            child: ChoiceCard(choice: choice),
+          );
+        }).toList(),
+      ),
+    );
+  }
+}
+
+class Choice {
+  const Choice({this.title, this.icon});
+  final String title;
+  final IconData icon;
+}
+
+const List<Choice> choices = const <Choice>[
+  const Choice(title: '动态', icon: Icons.directions_car),
+  const Choice(title: '帖子', icon: Icons.directions_bike),
+  const Choice(title: '评论', icon: Icons.directions_boat),
+];
+
+class ChoiceCard extends StatelessWidget {
+  const ChoiceCard({Key key, this.choice}) : super(key: key);
+
+  final Choice choice;
+
+  @override
+  Widget build(BuildContext context) {
+    final TextStyle textStyle = Theme.of(context).textTheme.display1;
+    return Card(
+      color: Colors.white,
+      child: Center(child: JokeList()),
+    );
   }
 }

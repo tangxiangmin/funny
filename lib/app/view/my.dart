@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 
 import 'package:flutter_app/app/view/login.dart';
 import 'package:flutter_app/app/view/myPost.dart';
+import 'package:flutter_app/app/view/setting.dart';
 
+import 'package:flutter_app/app/components/share.dart';
 
 class MyPage extends StatefulWidget {
   @override
@@ -21,27 +23,26 @@ class MyState extends State<MyPage> {
   Widget build(BuildContext context) {
     Widget createListItem({icon, text, onTap}) {
       return GestureDetector(
-        onTap: onTap,
-        child: new Container(
-        margin: EdgeInsets.only(bottom: 10.0),
-        padding: EdgeInsets.only(top: 10.0, bottom: 10.0),
-        child: new Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: <Widget>[
-            new Row(
+          onTap: onTap,
+          child: new Container(
+            margin: EdgeInsets.only(bottom: 10.0),
+            padding: EdgeInsets.only(top: 10.0, bottom: 10.0),
+            child: new Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: <Widget>[
-                new Container(
-                  margin: const EdgeInsets.only(right: 10.0),
-                  child: new Icon(icon),
+                new Row(
+                  children: <Widget>[
+                    new Container(
+                      margin: const EdgeInsets.only(right: 10.0),
+                      child: new Icon(icon),
+                    ),
+                    new Text(text),
+                  ],
                 ),
-                new Text(text),
+                new Icon(Icons.arrow_forward_ios)
               ],
             ),
-            new Icon(Icons.arrow_forward_ios)
-          ],
-        ),
-      )
-      ); 
+          ));
     }
 
     Widget my = new Container(
@@ -108,36 +109,47 @@ class MyState extends State<MyPage> {
           padding: const EdgeInsets.all(10.0),
           child: new Column(
             children: <Widget>[
-              createListItem(icon: Icons.event_note, text: '帖子', onTap: (){
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context)=>MyPost())
-                );
-              }),
-              createListItem(icon: Icons.comment, text: '评论', onTap: (){
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context)=>MyPost())
-                );
-              }),
-              createListItem(icon: Icons.collections, text: '收藏', onTap: (){
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context)=>MyPost())
-                );
-              }),
-              createListItem(icon: Icons.timeline, text: '观看历史', onTap: (){
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context)=>MyPost())
-                );
-              }),
-              createListItem(icon: Icons.terrain, text: '意见反馈', onTap: (){
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context)=>MyPost())
-                );
-              }),
+              createListItem(
+                  icon: Icons.event_note,
+                  text: '帖子',
+                  onTap: () {
+                    Navigator.push(context,
+                        MaterialPageRoute(builder: (context) => MyPost()));
+                  }),
+              createListItem(
+                  icon: Icons.comment,
+                  text: '评论',
+                  onTap: () {
+                    Navigator.push(context,
+                        MaterialPageRoute(builder: (context) => MyPost()));
+                  }),
+              createListItem(
+                  icon: Icons.collections,
+                  text: '收藏',
+                  onTap: () {
+                    Navigator.push(context,
+                        MaterialPageRoute(builder: (context) => MyPost()));
+                  }),
+              createListItem(
+                  icon: Icons.terrain,
+                  text: '意见反馈',
+                  onTap: () {
+                    Navigator.push(context,
+                        MaterialPageRoute(builder: (context) => MyPost()));
+                  }),
+              createListItem(
+                  icon: Icons.settings,
+                  text: '设置',
+                  onTap: () {
+                    Navigator.push(context,
+                        MaterialPageRoute(builder: (context) => SetPage()));
+                  }),
+              createListItem(
+                  icon: Icons.share,
+                  text: '邀请好友',
+                  onTap: () {
+                    ShareUtil.openShare(context);
+                  }),
             ],
           ),
         )

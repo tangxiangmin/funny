@@ -12,7 +12,6 @@ void main(){
         ),
         home: new FunApp()
     ));
-
 }
 
 

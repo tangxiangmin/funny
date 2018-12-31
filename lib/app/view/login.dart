@@ -1,32 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_app/home.dart';
 
+import 'package:flutter_app/app/components/form.dart';
+
 class LoginPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    const inputHeight = 50.0;
     const baseColor = Color.fromRGBO(254, 110, 110, 1);
-
-    Widget loginInput({text, icon}) {
-      return Container(
-        margin: EdgeInsets.fromLTRB(0, 0, 0, 20.0),
-        child: TextField(
-          style: new TextStyle(fontSize: 20, height: 1, color: Colors.black),
-          onChanged: (text) {
-            print('输入框值为$text');
-          },
-          decoration: InputDecoration(
-              contentPadding: EdgeInsets.all(15.0),
-              // labelText: "账号",
-              hintText: text,
-              prefixIcon: icon,
-              focusedBorder: OutlineInputBorder(
-                  borderSide: new BorderSide(color: baseColor)),
-              border: OutlineInputBorder(
-                  borderSide: new BorderSide(color: Colors.teal))),
-        ),
-      );
-    }
 
     void submit() {
       Navigator.push(
@@ -35,31 +15,12 @@ class LoginPage extends StatelessWidget {
       );
     }
 
-
     Widget page =  Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
-        loginInput(text: "用户名或邮箱", icon: Icon(Icons.person)),
-        loginInput(text: "请输入你的密码", icon: Icon(Icons.lock)),
-        Row(
-          children: <Widget>[
-            Expanded(
-              flex: 1,
-              child: Container(
-                  height: inputHeight,
-                  child: RaisedButton(
-                    onPressed: () {
-                      submit();
-                    },
-                    color: baseColor,
-                    child: Text(
-                      "登录",
-                      style: TextStyle(color: Colors.white, fontSize: 20),
-                    ),
-                  )),
-            )
-          ],
-        ),
+        CommonInput(text: "用户名或邮箱", icon: Icon(Icons.person)),
+        CommonInput(text: "请输入你的密码", icon: Icon(Icons.lock)),
+        CommonButton(onPressed: submit,),
         Container(
             margin: EdgeInsets.fromLTRB(0, 20, 0, 20),
             child: Text("没有账号？立即注册", style: TextStyle(color: baseColor))),

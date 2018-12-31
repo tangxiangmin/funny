@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import 'package:flutter_app/app/components/icon_tab.dart';
+import 'package:flutter_app/app/components/iconTab.dart';
 
 import 'package:flutter_app/app/view/index.dart';
 import 'package:flutter_app/app/view/my.dart';

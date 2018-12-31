@@ -1,9 +1,11 @@
 import "package:flutter/material.dart";
-import 'package:http/http.dart' as http;
 
-import 'package:flutter_app/app/model/joke.dart';
+// import 'package:flutter_app/app/model/joke.dart';
 import 'package:flutter_app/app/view/detail.dart';
-import 'package:flutter_app/app/item/joke_item.dart';
+import 'package:flutter_app/app/item/jokeItem.dart';
+
+import 'package:dio/dio.dart';
+import 'package:flutter_app/app/model/joke_list.dart' as JokeListModel;
 
 class JokeList extends StatefulWidget {
   JokeList({Key key}) : super(key: key);
@@ -13,10 +15,10 @@ class JokeList extends StatefulWidget {
 }
 
 class _JokeLitState extends State<JokeList> {
-  List<JokeModel> _jokes = [];
+  List<JokeListModel.Data> _jokes = [];
 
   Widget buildJokeItem(BuildContext context, int index) {
-    JokeModel joke = _jokes[index];
+    JokeListModel.Data joke = _jokes[index];
 
     return new GestureDetector(
         onTap: () {
@@ -26,24 +28,35 @@ class _JokeLitState extends State<JokeList> {
             new MaterialPageRoute(builder: (context) => new TextDetailPage(id)),
           );
         },
-        child: new JokeItem(joke));
+        child: JokeItem(joke: joke));
   }
 
-  void getJobList() {
-    http
-        .get("http://45.40.194.188:7654/jokeList/")
-        .then((http.Response response) {
-      var res = response.body;
+  void getJokeList() async {
+    Dio dio = new Dio();
+
+    var response = await dio.get("http://127.0.0.1:7999/jokeList/");
+
+    JokeListModel.joke_list res =
+        JokeListModel.joke_list.fromJson(response.data);
+
+    if (res.code == 0) {
       setState(() {
-        _jokes = JokeModel.fromJson(res);
+        _jokes = res.data;
       });
-    });
+    }
   }
+
   @override
   void initState() {
     // 数据初始化函数
     super.initState();
-    getJobList();
+    getJokeList();
+  }
+
+  @override
+  void reassemble() {
+    super.reassemble();
+    getJokeList();
   }
 
   @override

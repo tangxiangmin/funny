@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_app/app/model/joke.dart';
+import 'package:flutter_app/app/model/joke_list.dart' as JokeListModel;
 
 class JokeItem extends StatefulWidget {
-    final JokeModel joke;
+    final JokeListModel.Data joke;
 
-    JokeItem(this.joke);
+    JokeItem({
+      Key key,
+      this.joke
+    }) :super(key: key);
 
     @override
     JokeItemSate createState() => new JokeItemSate();
