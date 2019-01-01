@@ -34,6 +34,10 @@ dev_dependencies:
 
 # The following section is specific to Flutter.
 flutter:
+  fonts:
+      - family: iconfont
+        fonts:
+          - asset: assets/fonts/iconfont.ttf
   assets:
     - assets/tab/home.png
     - assets/tab/home_on.png

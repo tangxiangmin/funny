@@ -1,5 +1,9 @@
 import 'package:flutter/material.dart';
 
+import 'package:flutter_app/app/components/form.dart';
+import 'package:flutter_app/app/view/login.dart';
+import 'package:flutter_app/app/util/rem.dart';
+
 class SetPage extends StatefulWidget {
   SetPage({Key key}) : super(key: key);
 
@@ -49,26 +53,26 @@ class _SetPageState extends State<SetPage> {
           color: Colors.grey,
         ),
         Container(
-          margin: EdgeInsets.only(top: 40.0, left: 20, right: 20),
-          child: Row(
-            children: <Widget>[
-              Expanded(
-                flex: 1,
-                child: RaisedButton(
-                  onPressed: () {},
-                  child: Text("退出登录"),
-                ),
-              ),
-            ],
-          ),
-        )
+            margin: EdgeInsets.only(top: Adapt.px(50)),
+            child: CommonButton(
+              text: "退出登录",
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => LoginPage()),
+                );
+              },
+            )),
       ],
     );
-    return new Scaffold(
-        appBar: new AppBar(
+    return Scaffold(
+        appBar: AppBar(
           elevation: 0.0,
-          title: new Text('个人中心'),
+          title: Text('设置'),
         ),
-        body: page);
+        body: Container(
+          padding: EdgeInsets.only(left: Adapt.px(20), right: Adapt.px(20)),
+          child: page,
+        ));
   }
 }

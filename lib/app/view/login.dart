@@ -2,6 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_app/home.dart';
 
 import 'package:flutter_app/app/components/form.dart';
+import 'package:flutter_app/enum/iconfont.dart';
+
+import 'package:flutter_app/enum/color.dart';
 
 class LoginPage extends StatelessWidget {
   @override
@@ -15,12 +18,12 @@ class LoginPage extends StatelessWidget {
       );
     }
 
-    Widget page =  Column(
+    Widget page = Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
         CommonInput(text: "用户名或邮箱", icon: Icon(Icons.person)),
         CommonInput(text: "请输入你的密码", icon: Icon(Icons.lock)),
-        CommonButton(onPressed: submit,),
+        CommonButton(onPressed: submit, text: "登录"),
         Container(
             margin: EdgeInsets.fromLTRB(0, 20, 0, 20),
             child: Text("没有账号？立即注册", style: TextStyle(color: baseColor))),
@@ -41,18 +44,9 @@ class LoginPage extends StatelessWidget {
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: <Widget>[
-            Image(
-                image: AssetImage("assets/img/weibo.png"),
-                width: 60.0,
-                fit: BoxFit.contain),
-            Image(
-                image: AssetImage("assets/img/qq.png"),
-                width: 60.0,
-                fit: BoxFit.contain),
-            Image(
-                image: AssetImage("assets/img/weixin.png"),
-                width: 60.0,
-                fit: BoxFit.contain),
+            Icon(IconFont.weibo, size: 60, color: BaseColor.weibo),
+            Icon(IconFont.wechat, size: 60, color: BaseColor.wechat),
+            Icon(IconFont.qq, size: 60, color: BaseColor.qq),
           ],
         )
       ],
@@ -73,7 +67,6 @@ class LoginPage extends StatelessWidget {
               page
             ],
           ),
-        )
-    );
+        ));
   }
 }

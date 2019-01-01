@@ -37,9 +37,11 @@ class CommonInput extends StatelessWidget {
 class CommonButton extends StatelessWidget{
   CommonButton({
     Key key,
-    this.onPressed
+    this.onPressed,
+    this.text
   }): super(key: key);
   Function onPressed;
+  String text;
 
   @override
   Widget build(BuildContext context){
@@ -53,7 +55,7 @@ class CommonButton extends StatelessWidget{
                     onPressed: onPressed,
                     color: baseColor,
                     child: Text(
-                      "登录",
+                      text,
                       style: TextStyle(color: Colors.white, fontSize: 20),
                     ),
                   )),

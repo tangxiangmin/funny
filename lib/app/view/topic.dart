@@ -5,7 +5,7 @@ class TopicPage extends StatefulWidget {
   TopicPage({Key key}) : super(key: key);
 
   @override
-  TopicPageSate createState() => new TopicPageSate();
+  TopicPageSate createState() => TopicPageSate();
 }
 
 class TopicPageSate extends State<TopicPage> {
@@ -17,47 +17,47 @@ class TopicPageSate extends State<TopicPage> {
             print("xxx");
             Navigator.push(
               context,
-              new MaterialPageRoute(builder: (context) => new CollectionPage()),
+              MaterialPageRoute(builder: (context) => CollectionPage()),
             );
           },
           child: Container(
             padding: const EdgeInsets.only(
                 left: 20.0, right: 20.0, bottom: 10.0, top: 10.0),
-            decoration: new BoxDecoration(
-                border: new Border(
+            decoration: BoxDecoration(
+                border: Border(
               bottom: BorderSide(width: 1.0, color: Colors.grey[100]),
             )),
-            child: new Row(
+            child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: <Widget>[
-                new Container(
+                Container(
                     margin: const EdgeInsets.only(right: 20.0),
-                    child: new Image.network(
+                    child: Image.network(
                       'http://dummyimage.com/200x200/FF6600',
                       height: 60.0,
                       fit: BoxFit.cover,
                     )),
-                new Expanded(
+                Expanded(
                     flex: 1,
-                    child: new Column(
+                    child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: <Widget>[
-                        new Text(
+                        Text(
                           '保护我方沙雕',
-                          style: new TextStyle(
+                          style: TextStyle(
                               fontWeight: FontWeight.bold, fontSize: 16.0),
                         ),
-                        new Text(
+                        Text(
                           '2187个热门内容',
-                          style: new TextStyle(color: Colors.grey),
+                          style: TextStyle(color: Colors.grey),
                         )
                       ],
                     )),
-                new RaisedButton(
+                RaisedButton(
                     onPressed: () {
                       print("click关注");
                     },
-                    child: new Text('关注'),
+                    child: Text('关注'),
                     textColor: Colors.white,
                     color: Colors.red)
               ],
@@ -65,10 +65,10 @@ class TopicPageSate extends State<TopicPage> {
           ));
     }
 
-    return new Scaffold(
-        appBar: new AppBar(
+    return Scaffold(
+        appBar: AppBar(
           elevation: 0.0,
-          title: new Text('主题'),
+          title: Text('主题'),
         ),
         body: Column(
           children: <Widget>[createTopic(), createTopic(), createTopic()],

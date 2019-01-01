@@ -1,10 +1,11 @@
-
 import 'package:flutter/material.dart';
 import 'package:flutter_app/app/util/rem.dart';
+import 'package:flutter_app/enum/iconfont.dart';
+import 'package:flutter_app/enum/color.dart';
 
 class ShareUtil {
-  static openShare(BuildContext context){
-     showModalBottomSheet(
+  static openShare(BuildContext context) {
+    showModalBottomSheet(
         context: context,
         builder: (BuildContext context) {
           return SharePopup();
@@ -21,7 +22,6 @@ class SharePopup extends StatefulWidget {
 
 class _SharePopupState extends State<SharePopup> {
   Widget build(BuildContext context) {
-
     Widget share_row(children) {
       return Container(
         margin: EdgeInsets.only(left: 20),
@@ -40,12 +40,13 @@ class _SharePopupState extends State<SharePopup> {
       child: Column(
         children: <Widget>[
           share_row([
-            _ShareIcon(image: AssetImage("assets/img/qq.png"), name: "QQ"),
-            _ShareIcon(image: AssetImage("assets/img/qzone.png"), name: "空间"),
-            _ShareIcon(image: AssetImage("assets/img/weixin.png"), name: "微信"),
+            _ShareIcon(icon: IconFont.wechat, name: "微信", color: BaseColor.wechat),
+            _ShareIcon(icon: IconFont.qq, name: "QQ", color: BaseColor.qq),
+            _ShareIcon(icon: IconFont.qzone, name: "空间", color: BaseColor.qzone),
+            _ShareIcon(icon: IconFont.wechat, name: "朋友圈", color: BaseColor.moments),
           ]),
           share_row([
-            _ShareIcon(image: AssetImage("assets/img/weibo.png"), name: "微博"),
+            _ShareIcon(icon: IconFont.weibo, name: "微博", color: BaseColor.weibo,),
           ]),
         ],
       ),
@@ -69,27 +70,32 @@ class _SharePopupState extends State<SharePopup> {
 }
 
 class _ShareIcon extends StatelessWidget {
-  final AssetImage image;
+ 
+  _ShareIcon({
+    Key key, 
+    this.icon, 
+    this.name, 
+    this.color, 
+    this.size,
+  }) : super(key: key);
+
+  final IconData icon;
   final String name;
-  _ShareIcon({Key key, this.image, this.name}) : super(key: key);
+  final Color color;
+  double size;
 
   @override
   Widget build(BuildContext context) {
-    double iconWidth = Adapt.px(100);
+    size = size ?? Adapt.px(100);
+
     return Container(
-      width: iconWidth,
+      width: size,
       margin: EdgeInsets.only(right: Adapt.px(50)),
       child: Column(
         children: <Widget>[
           Container(
-            margin: EdgeInsets.only(bottom: Adapt.px(23)),
-            child: Image(
-              image: image,
-              width: iconWidth,
-              height: iconWidth,
-              fit: BoxFit.contain,
-            ),
-          ),
+              margin: EdgeInsets.only(bottom: Adapt.px(23)),
+              child: Icon(icon, size: size, color: color)),
           Text(name, style: TextStyle(fontSize: Adapt.px(24)))
         ],
       ),

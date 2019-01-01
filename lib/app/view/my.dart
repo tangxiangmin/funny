@@ -5,17 +5,18 @@ import 'package:flutter_app/app/view/myPost.dart';
 import 'package:flutter_app/app/view/setting.dart';
 
 import 'package:flutter_app/app/components/share.dart';
+import 'package:flutter_app/enum/iconfont.dart';
 
 class MyPage extends StatefulWidget {
   @override
-  MyState createState() => new MyState();
+  MyState createState() => MyState();
 }
 
 class MyState extends State<MyPage> {
   void _goLogin() {
     Navigator.push(
       context,
-      new MaterialPageRoute(builder: (context) => new LoginPage()),
+      MaterialPageRoute(builder: (context) => LoginPage()),
     );
   }
 
@@ -24,39 +25,39 @@ class MyState extends State<MyPage> {
     Widget createListItem({icon, text, onTap}) {
       return GestureDetector(
           onTap: onTap,
-          child: new Container(
+          child: Container(
             margin: EdgeInsets.only(bottom: 10.0),
             padding: EdgeInsets.only(top: 10.0, bottom: 10.0),
-            child: new Row(
+            child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: <Widget>[
-                new Row(
+                Row(
                   children: <Widget>[
-                    new Container(
+                    Container(
                       margin: const EdgeInsets.only(right: 10.0),
-                      child: new Icon(icon),
+                      child: Icon(icon),
                     ),
-                    new Text(text),
+                    Text(text),
                   ],
                 ),
-                new Icon(Icons.arrow_forward_ios)
+                Icon(Icons.arrow_forward_ios)
               ],
             ),
           ));
     }
 
-    Widget my = new Container(
+    Widget my = Container(
       color: Colors.white,
       margin: const EdgeInsets.only(bottom: 20.0),
-      child: new ListView(children: <Widget>[
-        new Container(
+      child: ListView(children: <Widget>[
+        Container(
             padding: const EdgeInsets.all(10.0),
             child: GestureDetector(
               onTap: _goLogin,
-              child: new Row(
+              child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: <Widget>[
-                  new Container(
+                  Container(
                     margin: const EdgeInsets.only(right: 20.0),
                     child: CircleAvatar(
                       radius: 35,
@@ -64,88 +65,85 @@ class MyState extends State<MyPage> {
                           "http://imgold.doufu.la/e3/63/7d2421e0c018f7bb52428e7f9f.png"),
                     ),
                   ),
-                  new Expanded(
+                  Expanded(
                     flex: 1,
-                    child: new Row(
+                    child: Row(
                       children: <Widget>[
-                        new Column(
+                        Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
-                          children: <Widget>[
-                            new Text('登录/注册'),
-                            new Text('欢迎来到段子社区')
-                          ],
+                          children: <Widget>[Text('登录/注册'), Text('欢迎来到段子社区')],
                         ),
                       ],
                     ),
                   ),
-                  new Icon(Icons.arrow_forward_ios)
+                  Icon(Icons.arrow_forward_ios)
                 ],
               ),
             )),
-        new Container(
+        Container(
           margin: EdgeInsets.only(top: 20.0, bottom: 20.0),
           padding: const EdgeInsets.all(10.0),
-          decoration: new BoxDecoration(
-            border: new Border(
+          decoration: BoxDecoration(
+            border: Border(
               bottom: BorderSide(width: 10.0, color: Colors.grey[100]),
             ),
           ),
-          child: new Row(
+          child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: <Widget>[
-              new Column(
-                children: <Widget>[new Text('0'), new Text('获赞')],
+              Column(
+                children: <Widget>[Text('0'), Text('获赞')],
               ),
-              new Column(
-                children: <Widget>[new Text('0'), new Text('粉丝')],
+              Column(
+                children: <Widget>[Text('0'), Text('粉丝')],
               ),
-              new Column(
-                children: <Widget>[new Text('0'), new Text('关注')],
+              Column(
+                children: <Widget>[Text('0'), Text('关注')],
               )
             ],
           ),
         ),
-        new Container(
+        Container(
           padding: const EdgeInsets.all(10.0),
-          child: new Column(
+          child: Column(
             children: <Widget>[
               createListItem(
-                  icon: Icons.event_note,
+                  icon: IconFont.post,
                   text: '帖子',
                   onTap: () {
                     Navigator.push(context,
                         MaterialPageRoute(builder: (context) => MyPost()));
                   }),
               createListItem(
-                  icon: Icons.comment,
+                  icon: IconFont.comment,
                   text: '评论',
                   onTap: () {
                     Navigator.push(context,
                         MaterialPageRoute(builder: (context) => MyPost()));
                   }),
               createListItem(
-                  icon: Icons.collections,
+                  icon: IconFont.collections,
                   text: '收藏',
                   onTap: () {
                     Navigator.push(context,
                         MaterialPageRoute(builder: (context) => MyPost()));
                   }),
               createListItem(
-                  icon: Icons.terrain,
+                  icon: IconFont.advice,
                   text: '意见反馈',
                   onTap: () {
                     Navigator.push(context,
                         MaterialPageRoute(builder: (context) => MyPost()));
                   }),
               createListItem(
-                  icon: Icons.settings,
+                  icon: IconFont.setting,
                   text: '设置',
                   onTap: () {
                     Navigator.push(context,
                         MaterialPageRoute(builder: (context) => SetPage()));
                   }),
               createListItem(
-                  icon: Icons.share,
+                  icon: IconFont.share,
                   text: '邀请好友',
                   onTap: () {
                     ShareUtil.openShare(context);
@@ -156,10 +154,10 @@ class MyState extends State<MyPage> {
       ]),
     );
 
-    return new Scaffold(
-        appBar: new AppBar(
+    return Scaffold(
+        appBar: AppBar(
           elevation: 0.0,
-          title: new Text('个人中心'),
+          title: Text('个人中心'),
         ),
         body: my);
   }

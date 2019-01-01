@@ -34,7 +34,7 @@ class _JokeLitState extends State<JokeList> {
   void getJokeList() async {
     Dio dio = new Dio();
 
-    var response = await dio.get("http://127.0.0.1:7999/jokeList/");
+    var response = await dio.get("http://192.168.1.6:7999/jokeList/");
 
     JokeListModel.joke_list res =
         JokeListModel.joke_list.fromJson(response.data);
