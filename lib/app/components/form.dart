@@ -7,20 +7,27 @@ class CommonInput extends StatelessWidget {
   CommonInput({
     Key key,
     this.icon,
-    this.text
+    this.text,
+    this.maxLines,
+    this.onChanged,
+    this.type,
   }): super(key: key);
   Icon icon; 
   String text;
+  int maxLines;
+  Function onChanged;
+  String type;
 
   @override
   Widget build(BuildContext context){
     return Container(
         margin: EdgeInsets.fromLTRB(0, 0, 0, 20.0),
         child: TextField(
+          maxLines: maxLines ?? 1,
           style: new TextStyle(fontSize: 20, height: 1, color: Colors.black),
-          onChanged: (text) {
-            print('输入框值为$text');
-          },
+          onChanged: onChanged ?? (){},
+          obscureText: type == "password",
+        
           decoration: InputDecoration(
               contentPadding: EdgeInsets.all(15.0),
               hintText: text,
@@ -52,7 +59,7 @@ class CommonButton extends StatelessWidget{
               child: Container(
                   height: inputHeight,
                   child: RaisedButton(
-                    onPressed: onPressed,
+                    onPressed: onPressed ?? (){},
                     color: baseColor,
                     child: Text(
                       text,

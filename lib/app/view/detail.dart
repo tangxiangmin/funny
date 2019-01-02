@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:http/http.dart' as http;
-import 'package:flutter_app/app/model/joke.dart';
 
 
 class TextDetailPage extends StatefulWidget {
@@ -16,28 +14,11 @@ class TextDetailPage extends StatefulWidget {
 }
 
 class TextDetailSate extends State<TextDetailPage> {
-    List<JokeModel> _jokes = [];
 
     @override
     void initState() {
         super.initState();
-//        this.getDetail();
         // todo 接收传递过来的内容数据
-    }
-
-    void getDetail() {
-        var id = widget.id;
-        print(id);
-
-        http.get("http://45.40.194.188:7654/jokeList")
-            .then((http.Response response) {
-            print('request back');
-            var res = response.body;
-            setState(() {
-                _jokes = JokeModel.fromJson(res);
-            });
-        });
-
     }
 
     @override

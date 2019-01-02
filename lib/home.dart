@@ -58,7 +58,7 @@ class HomeState extends State<FunApp> with SingleTickerProviderStateMixin {
                 icon: _currentIndex == TAB_INDEX['home']
                     ? 'assets/tab/home_on.png'
                     : 'assets/tab/home.png',
-                text: "职位",
+                text: "首页",
                 color: Colors.grey[900]),
             IconTab(
                 icon: _currentIndex == TAB_INDEX['topic']

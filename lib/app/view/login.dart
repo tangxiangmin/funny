@@ -5,24 +5,87 @@ import 'package:flutter_app/app/components/form.dart';
 import 'package:flutter_app/enum/iconfont.dart';
 
 import 'package:flutter_app/enum/color.dart';
+import 'package:flutter_app/app/api/base.dart';
 
-class LoginPage extends StatelessWidget {
+import 'package:flutter_app/app/model/login.dart' as LoginModel;
+import 'package:flutter_app/app/util/layer.dart';
+
+import 'package:shared_preferences/shared_preferences.dart';
+
+import 'package:flutter_app/enum/storage.dart';
+
+class LoginPage extends StatefulWidget {
   @override
-  Widget build(BuildContext context) {
-    const baseColor = Color.fromRGBO(254, 110, 110, 1);
+  _LoginPageState createState() => _LoginPageState();
+}
 
-    void submit() {
+class _LoginPageState extends State<LoginPage> {
+  String username;
+  String password;
+
+  void login() {
+    print("username:$username");
+    print("password:$password");
+  }
+
+  void loginSuccess(){
       Navigator.push(
         context,
         new MaterialPageRoute(builder: (context) => new FunApp()),
       );
+  }
+  @override
+  Widget build(BuildContext context) {
+    const baseColor = Color.fromRGBO(254, 110, 110, 1);
+
+    void submit() async {
+      try {
+        var response = await HttpUtil.dio.get("/login");
+        if (response.data != null) {
+          LoginModel.login res = LoginModel.login.fromJson(response.data);
+          if (res.code == 0) {
+            LoginModel.Data data = res.data;
+
+            SharedPreferences prefs = await SharedPreferences.getInstance();
+            prefs.setString(LocalStorage.loginToken, data.token);
+            prefs.setString(LocalStorage.uid, data.uid.toString());
+
+            loginSuccess();
+          } else {
+            Layer.toast(res.message);
+          }
+        }else {
+          throw "请求失败";
+        }
+      } catch (e) {
+        print(e);
+        Layer.toast("网络错误，请稍后重试");
+      }
+
+      
     }
 
     Widget page = Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
-        CommonInput(text: "用户名或邮箱", icon: Icon(Icons.person)),
-        CommonInput(text: "请输入你的密码", icon: Icon(Icons.lock)),
+        CommonInput(
+            text: "用户名或邮箱",
+            icon: Icon(Icons.person),
+            onChanged: (val) {
+              setState(() {
+                username = val;
+              });
+            }),
+        CommonInput(
+          text: "请输入你的密码",
+          icon: Icon(Icons.lock),
+          type: "password",
+          onChanged: (val) {
+            setState(() {
+              password = val;
+            });
+          },
+        ),
         CommonButton(onPressed: submit, text: "登录"),
         Container(
             margin: EdgeInsets.fromLTRB(0, 20, 0, 20),

@@ -59,7 +59,7 @@ class CollectionPage extends StatelessWidget {
         ),
         body: Container(
           margin: EdgeInsets.only(top: 20.0, left: 10.0, right: 10.0),
-          child: new Column(
+          child: new ListView(
             children: <Widget>[
               page
             ],

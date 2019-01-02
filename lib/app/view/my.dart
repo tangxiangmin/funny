@@ -1,11 +1,17 @@
 import 'package:flutter/material.dart';
 
+import 'package:flutter_app/app/components/share.dart';
+import 'package:flutter_app/enum/iconfont.dart';
+
 import 'package:flutter_app/app/view/login.dart';
 import 'package:flutter_app/app/view/myPost.dart';
 import 'package:flutter_app/app/view/setting.dart';
+import 'package:flutter_app/app/view/advice.dart';
 
-import 'package:flutter_app/app/components/share.dart';
-import 'package:flutter_app/enum/iconfont.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:flutter_app/enum/storage.dart';
+import 'package:flutter_app/app/api/base.dart';
+import 'package:flutter_app/app/model/user_info.dart' as UserInfoModel;
 
 class MyPage extends StatefulWidget {
   @override
@@ -13,11 +19,60 @@ class MyPage extends StatefulWidget {
 }
 
 class MyState extends State<MyPage> {
+  bool _isLogin = false;
+  UserInfoModel.Data _user;
+
   void _goLogin() {
     Navigator.push(
       context,
       MaterialPageRoute(builder: (context) => LoginPage()),
     );
+  }
+
+  void init() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    String loginToken = prefs.get(LocalStorage.loginToken);
+    // String uid = prefs.get(LocalStorage.uid);
+    print(loginToken);
+    setState(() {
+      _isLogin = loginToken != null;
+      if (_isLogin) {
+        getUserInfo();
+      }
+    });
+  }
+
+  void getUserInfo() async {
+    try {
+      var response = await HttpUtil.dio.get("/userInfo");
+      if (response.data != null) {
+        UserInfoModel.user_info res =
+            UserInfoModel.user_info.fromJson(response.data);
+        if (res.code == 0) {
+          UserInfoModel.Data data = res.data;
+          setState(() {
+            print("update");
+            _user = data;
+          });
+        } else {
+          throw res.message;
+        }
+      }
+    } catch (e) {
+      print(e);
+    }
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    init();
+  }
+
+  @override
+  void reassemble() {
+    super.reassemble();
+    init();
   }
 
   @override
@@ -46,6 +101,11 @@ class MyState extends State<MyPage> {
           ));
     }
 
+    ImageProvider avatar = _user?.avatar != null
+        ? NetworkImage(_user.avatar)
+        : AssetImage("assets/img/default_avatar.png");
+    String userName = _user?.nickname != null ? _user.nickname : '登录/注册';
+
     Widget my = Container(
       color: Colors.white,
       margin: const EdgeInsets.only(bottom: 20.0),
@@ -59,11 +119,7 @@ class MyState extends State<MyPage> {
                 children: <Widget>[
                   Container(
                     margin: const EdgeInsets.only(right: 20.0),
-                    child: CircleAvatar(
-                      radius: 35,
-                      backgroundImage: NetworkImage(
-                          "http://imgold.doufu.la/e3/63/7d2421e0c018f7bb52428e7f9f.png"),
-                    ),
+                    child: CircleAvatar(radius: 35, backgroundImage: avatar),
                   ),
                   Expanded(
                     flex: 1,
@@ -71,7 +127,10 @@ class MyState extends State<MyPage> {
                       children: <Widget>[
                         Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
-                          children: <Widget>[Text('登录/注册'), Text('欢迎来到段子社区')],
+                          children: <Widget>[
+                            Text(userName, style: TextStyle(fontSize: 18)),
+                            Text('欢迎来到段子社区')
+                          ],
                         ),
                       ],
                     ),
@@ -92,13 +151,13 @@ class MyState extends State<MyPage> {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: <Widget>[
               Column(
-                children: <Widget>[Text('0'), Text('获赞')],
+                children: <Widget>[Text(_user?.likeNum.toString() ?? "0"), Text('获赞')],
               ),
               Column(
-                children: <Widget>[Text('0'), Text('粉丝')],
+                children: <Widget>[Text(_user?.fansNum.toString() ?? "0"), Text('粉丝')],
               ),
               Column(
-                children: <Widget>[Text('0'), Text('关注')],
+                children: <Widget>[Text(_user?.focusNum.toString() ?? "0"), Text('关注')],
               )
             ],
           ),
@@ -133,7 +192,7 @@ class MyState extends State<MyPage> {
                   text: '意见反馈',
                   onTap: () {
                     Navigator.push(context,
-                        MaterialPageRoute(builder: (context) => MyPost()));
+                        MaterialPageRoute(builder: (context) => AdvicePage()));
                   }),
               createListItem(
                   icon: IconFont.setting,
