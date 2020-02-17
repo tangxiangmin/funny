@@ -48,7 +48,7 @@ class HomeState extends State<FunApp> with SingleTickerProviderStateMixin {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    Widget body = Scaffold(
         bottomNavigationBar: TabBar(
           controller: _controller,
           indicatorSize: TabBarIndicatorSize.label,
@@ -89,5 +89,11 @@ class HomeState extends State<FunApp> with SingleTickerProviderStateMixin {
           ],
           controller: _controller,
         ));
+    return SafeArea(
+      bottom: true,
+      child: SizedBox.expand(
+        child: body,
+      ),
+    );
   }
 }

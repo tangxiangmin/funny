@@ -1,4 +1,7 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
+import 'package:flutter_redux/flutter_redux.dart';
 
 import 'package:flutter_app/app/components/share.dart';
 import 'package:flutter_app/enum/iconfont.dart';
@@ -12,13 +15,38 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter_app/enum/storage.dart';
 import 'package:flutter_app/app/api/base.dart';
 import 'package:flutter_app/app/model/user_info.dart' as UserInfoModel;
+import '../../store/index.dart' as BaseStore;
 
 class MyPage extends StatefulWidget {
   @override
   MyState createState() => MyState();
 }
 
-class MyState extends State<MyPage> {
+abstract class BaseState extends State<MyPage>{
+  int _count = 0;
+  StreamSubscription _listenSub;
+
+  @override
+  void initState() {
+    super.initState();
+    print("init state");
+
+    _listenSub = BaseStore.store.onChange.listen((newState) {
+      BaseStore.AppState state = newState;
+      setState(() {
+        this._count = state.count;
+      });
+    });
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    _listenSub.cancel();
+  }
+}
+
+class MyState extends BaseState {
   bool _isLogin = false;
   UserInfoModel.Data _user;
 
@@ -66,7 +94,6 @@ class MyState extends State<MyPage> {
   @override
   void initState() {
     super.initState();
-    init();
   }
 
   @override
@@ -106,10 +133,39 @@ class MyState extends State<MyPage> {
         : AssetImage("assets/img/default_avatar.png");
     String userName = _user?.nickname != null ? _user.nickname : '登录/注册';
 
+    Widget btn1 = new StoreConnector<BaseStore.AppState, dynamic>(
+      converter: (store) {
+        // 直接返回store本身
+        return store;
+      },
+      builder: (context, store) {
+        return FloatingActionButton(
+          onPressed: () {
+            print('click');
+            store.dispatch(BaseStore.IncrementAction(payload: 10));
+          },
+          child: new Text(
+            store.state.count.toString(),
+            style: Theme.of(context).textTheme.display1,
+          ),
+        );
+      },
+    );
+    Widget btn2 = FloatingActionButton(
+      onPressed: () {
+        BaseStore.store.dispatch(BaseStore.IncrementAction(payload: 2));
+      },
+      child: Text(
+        _count.toString(),
+        style: Theme.of(context).textTheme.display1,
+      ),
+    );
+
     Widget my = Container(
       color: Colors.white,
       margin: const EdgeInsets.only(bottom: 20.0),
       child: ListView(children: <Widget>[
+        btn2,
         Container(
             padding: const EdgeInsets.all(10.0),
             child: GestureDetector(
@@ -151,13 +207,22 @@ class MyState extends State<MyPage> {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: <Widget>[
               Column(
-                children: <Widget>[Text(_user?.likeNum.toString() ?? "0"), Text('获赞')],
+                children: <Widget>[
+                  Text(_user?.likeNum.toString() ?? "0"),
+                  Text('获赞')
+                ],
               ),
               Column(
-                children: <Widget>[Text(_user?.fansNum.toString() ?? "0"), Text('粉丝')],
+                children: <Widget>[
+                  Text(_user?.fansNum.toString() ?? "0"),
+                  Text('粉丝')
+                ],
               ),
               Column(
-                children: <Widget>[Text(_user?.focusNum.toString() ?? "0"), Text('关注')],
+                children: <Widget>[
+                  Text(_user?.focusNum.toString() ?? "0"),
+                  Text('关注')
+                ],
               )
             ],
           ),

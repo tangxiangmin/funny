@@ -23,6 +23,9 @@ dependencies:
   json_annotation: ^2.0.0 # 解析json
   fluttertoast: ^2.2.3 # toast插件
   shared_preferences: ^0.4.3 # 本地存储
+  redux: ^4.0.0
+  flutter_redux: ^0.6.0
+  flutter_aes_ecb_pkcs5: ^0.1.1
 
 dev_dependencies:
   flutter_test:

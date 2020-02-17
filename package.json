@@ -9,7 +9,7 @@
   },
   "scripts": {
     "model": "flutter packages pub run build_runner build",
-    "ios": "open -a Simulator"
+    "mock": "mock -f ./mock/index.js -p 7999"
   },
   "repository": {
     "type": "git",
