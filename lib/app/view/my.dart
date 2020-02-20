@@ -15,95 +15,48 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter_app/enum/storage.dart';
 import 'package:flutter_app/app/api/base.dart';
 import 'package:flutter_app/app/model/user_info.dart' as UserInfoModel;
-import '../../store/index.dart' as BaseStore;
+
+import '../../store/index.dart';
+import '../../store/module/user.dart';
 
 class MyPage extends StatefulWidget {
   @override
   MyState createState() => MyState();
 }
 
-abstract class BaseState extends State<MyPage>{
-  int _count = 0;
-  StreamSubscription _listenSub;
-
+class MyState extends State<MyPage> {
   @override
   void initState() {
     super.initState();
-    print("init state");
 
-    _listenSub = BaseStore.store.onChange.listen((newState) {
-      BaseStore.AppState state = newState;
-      setState(() {
-        this._count = state.count;
-      });
-    });
-  }
-
-  @override
-  void dispose() {
-    super.dispose();
-    _listenSub.cancel();
-  }
-}
-
-class MyState extends BaseState {
-  bool _isLogin = false;
-  UserInfoModel.Data _user;
-
-  void _goLogin() {
-    Navigator.push(
-      context,
-      MaterialPageRoute(builder: (context) => LoginPage()),
-    );
-  }
-
-  void init() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    String loginToken = prefs.get(LocalStorage.loginToken);
-    // String uid = prefs.get(LocalStorage.uid);
-    print(loginToken);
-    setState(() {
-      _isLogin = loginToken != null;
-      if (_isLogin) {
-        getUserInfo();
-      }
-    });
-  }
-
-  void getUserInfo() async {
-    try {
-      var response = await HttpUtil.dio.get("/userInfo");
-      if (response.data != null) {
-        UserInfoModel.user_info res =
-            UserInfoModel.user_info.fromJson(response.data);
-        if (res.code == 0) {
-          UserInfoModel.Data data = res.data;
-          setState(() {
-            print("update");
-            _user = data;
-          });
-        } else {
-          throw res.message;
-        }
-      }
-    } catch (e) {
-      print(e);
+    AppState state = store.state;
+    // 存在数据时请求用户信息
+    if (state.user.token != null) {
+      store.dispatch(fetchUserInfoAction());
     }
   }
 
   @override
-  void initState() {
-    super.initState();
+  Widget build(BuildContext context) {
+    return Scaffold(
+        appBar: AppBar(
+          elevation: 0.0,
+          title: Text('个人中心'),
+        ),
+        body: _MyPage());
   }
+}
 
-  @override
-  void reassemble() {
-    super.reassemble();
-    init();
-  }
-
+class _MyPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    void _goLogin() {
+      Navigator.push(
+        context,
+        MaterialPageRoute(builder: (context) => LoginPage()),
+      );
+    }
+
     Widget createListItem({icon, text, onTap}) {
       return GestureDetector(
           onTap: onTap,
@@ -128,161 +81,134 @@ class MyState extends BaseState {
           ));
     }
 
-    ImageProvider avatar = _user?.avatar != null
-        ? NetworkImage(_user.avatar)
-        : AssetImage("assets/img/default_avatar.png");
-    String userName = _user?.nickname != null ? _user.nickname : '登录/注册';
-
-    Widget btn1 = new StoreConnector<BaseStore.AppState, dynamic>(
-      converter: (store) {
-        // 直接返回store本身
-        return store;
-      },
-      builder: (context, store) {
-        return FloatingActionButton(
-          onPressed: () {
-            print('click');
-            store.dispatch(BaseStore.IncrementAction(payload: 10));
-          },
-          child: new Text(
-            store.state.count.toString(),
-            style: Theme.of(context).textTheme.display1,
-          ),
-        );
-      },
-    );
-    Widget btn2 = FloatingActionButton(
-      onPressed: () {
-        BaseStore.store.dispatch(BaseStore.IncrementAction(payload: 2));
-      },
-      child: Text(
-        _count.toString(),
-        style: Theme.of(context).textTheme.display1,
+    Widget navList = Container(
+      padding: const EdgeInsets.all(10.0),
+      child: Column(
+        children: <Widget>[
+          createListItem(
+              icon: IconFont.post,
+              text: '帖子',
+              onTap: () {
+                Navigator.push(
+                    context, MaterialPageRoute(builder: (context) => MyPost()));
+              }),
+          createListItem(
+              icon: IconFont.comment,
+              text: '评论',
+              onTap: () {
+                Navigator.push(
+                    context, MaterialPageRoute(builder: (context) => MyPost()));
+              }),
+          createListItem(
+              icon: IconFont.collections,
+              text: '收藏',
+              onTap: () {
+                Navigator.push(
+                    context, MaterialPageRoute(builder: (context) => MyPost()));
+              }),
+          createListItem(
+              icon: IconFont.advice,
+              text: '意见反馈',
+              onTap: () {
+                Navigator.push(context,
+                    MaterialPageRoute(builder: (context) => AdvicePage()));
+              }),
+          createListItem(
+              icon: IconFont.setting,
+              text: '设置',
+              onTap: () {
+                Navigator.push(context,
+                    MaterialPageRoute(builder: (context) => SetPage()));
+              }),
+          createListItem(
+              icon: IconFont.share,
+              text: '邀请好友',
+              onTap: () {
+                ShareUtil.openShare(context);
+              }),
+        ],
       ),
     );
+    print('rebuild');
 
-    Widget my = Container(
-      color: Colors.white,
-      margin: const EdgeInsets.only(bottom: 20.0),
-      child: ListView(children: <Widget>[
-        btn2,
-        Container(
-            padding: const EdgeInsets.all(10.0),
-            child: GestureDetector(
-              onTap: _goLogin,
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: <Widget>[
-                  Container(
-                    margin: const EdgeInsets.only(right: 20.0),
-                    child: CircleAvatar(radius: 35, backgroundImage: avatar),
-                  ),
-                  Expanded(
-                    flex: 1,
-                    child: Row(
-                      children: <Widget>[
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: <Widget>[
-                            Text(userName, style: TextStyle(fontSize: 18)),
-                            Text('欢迎来到段子社区')
-                          ],
-                        ),
-                      ],
+    return connect((store) {
+      return store.state.user.userInfo;
+    }, (context, _user, store) {
+      ImageProvider avatar = _user?.avatar != null
+          ? NetworkImage(_user.avatar)
+          : AssetImage("assets/img/default_avatar.png");
+      String userName = _user?.nickname != null ? _user.nickname : '登录/注册';
+
+      Widget dataBar = Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: <Widget>[
+          Column(
+            children: <Widget>[
+              Text(_user?.likeNum.toString() ?? "0"),
+              Text('获赞')
+            ],
+          ),
+          Column(
+            children: <Widget>[
+              Text(_user?.fansNum.toString() ?? "0"),
+              Text('粉丝')
+            ],
+          ),
+          Column(
+            children: <Widget>[
+              Text(_user?.focusNum.toString() ?? "0"),
+              Text('关注')
+            ],
+          )
+        ],
+      );
+
+      return Container(
+        color: Colors.white,
+        margin: const EdgeInsets.only(bottom: 20.0),
+        child: ListView(children: <Widget>[
+          Container(
+              padding: const EdgeInsets.all(10.0),
+              child: GestureDetector(
+                onTap: _goLogin,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: <Widget>[
+                    Container(
+                      margin: const EdgeInsets.only(right: 20.0),
+                      child: CircleAvatar(radius: 35, backgroundImage: avatar),
                     ),
-                  ),
-                  Icon(Icons.arrow_forward_ios)
-                ],
+                    Expanded(
+                      flex: 1,
+                      child: Row(
+                        children: <Widget>[
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: <Widget>[
+                              Text(userName, style: TextStyle(fontSize: 18)),
+                              Text('欢迎来到段子社区')
+                            ],
+                          ),
+                        ],
+                      ),
+                    ),
+                    Icon(Icons.arrow_forward_ios)
+                  ],
+                ),
+              )),
+          Container(
+            margin: EdgeInsets.only(top: 20.0, bottom: 20.0),
+            padding: const EdgeInsets.all(10.0),
+            decoration: BoxDecoration(
+              border: Border(
+                bottom: BorderSide(width: 10.0, color: Colors.grey[100]),
               ),
-            )),
-        Container(
-          margin: EdgeInsets.only(top: 20.0, bottom: 20.0),
-          padding: const EdgeInsets.all(10.0),
-          decoration: BoxDecoration(
-            border: Border(
-              bottom: BorderSide(width: 10.0, color: Colors.grey[100]),
             ),
+            child: dataBar,
           ),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: <Widget>[
-              Column(
-                children: <Widget>[
-                  Text(_user?.likeNum.toString() ?? "0"),
-                  Text('获赞')
-                ],
-              ),
-              Column(
-                children: <Widget>[
-                  Text(_user?.fansNum.toString() ?? "0"),
-                  Text('粉丝')
-                ],
-              ),
-              Column(
-                children: <Widget>[
-                  Text(_user?.focusNum.toString() ?? "0"),
-                  Text('关注')
-                ],
-              )
-            ],
-          ),
-        ),
-        Container(
-          padding: const EdgeInsets.all(10.0),
-          child: Column(
-            children: <Widget>[
-              createListItem(
-                  icon: IconFont.post,
-                  text: '帖子',
-                  onTap: () {
-                    Navigator.push(context,
-                        MaterialPageRoute(builder: (context) => MyPost()));
-                  }),
-              createListItem(
-                  icon: IconFont.comment,
-                  text: '评论',
-                  onTap: () {
-                    Navigator.push(context,
-                        MaterialPageRoute(builder: (context) => MyPost()));
-                  }),
-              createListItem(
-                  icon: IconFont.collections,
-                  text: '收藏',
-                  onTap: () {
-                    Navigator.push(context,
-                        MaterialPageRoute(builder: (context) => MyPost()));
-                  }),
-              createListItem(
-                  icon: IconFont.advice,
-                  text: '意见反馈',
-                  onTap: () {
-                    Navigator.push(context,
-                        MaterialPageRoute(builder: (context) => AdvicePage()));
-                  }),
-              createListItem(
-                  icon: IconFont.setting,
-                  text: '设置',
-                  onTap: () {
-                    Navigator.push(context,
-                        MaterialPageRoute(builder: (context) => SetPage()));
-                  }),
-              createListItem(
-                  icon: IconFont.share,
-                  text: '邀请好友',
-                  onTap: () {
-                    ShareUtil.openShare(context);
-                  }),
-            ],
-          ),
-        )
-      ]),
-    );
-
-    return Scaffold(
-        appBar: AppBar(
-          elevation: 0.0,
-          title: Text('个人中心'),
-        ),
-        body: my);
+          navList
+        ]),
+      );
+    });
   }
 }

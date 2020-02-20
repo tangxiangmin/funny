@@ -1,53 +1,57 @@
 import 'package:redux/redux.dart';
+import 'package:redux_thunk/redux_thunk.dart';
 
-class IncrementAction {
-  final payload;
+import "package:flutter/material.dart";
+import 'package:flutter_redux/flutter_redux.dart';
 
-  IncrementAction({this.payload});
-}
+import './module/test.dart';
+import './module/user.dart';
+import './module/joke.dart';
 
 class AppState {
-  int count;
+  TestState test;
+  UserState user;
+  JokeState joke;
 
-  AppState({
-    this.count,
-  });
+  AppState({this.test, this.user, this.joke});
 
-  static AppState initialState() {
-    return AppState(
-      count: 0,
-    );
-  }
-
-  AppState copyWith({count}) {
-    return AppState(
-      count: count ?? this.count,
-    );
+  static initialState() {
+    AppState state = AppState(
+        test: TestState.initialState(),
+        user: UserState.initialState(),
+        joke: JokeState.initialState());
+    return state;
   }
 }
 
-AppState counterReducer(AppState state, dynamic action) {
-  switch (action.runtimeType) {
-    case IncrementAction:
-      return state.copyWith(count: state.count + action.payload);
-  }
-
-  return state;
+AppState _reducer(AppState state, dynamic action) {
+  return AppState(
+    test: testReducer(state.test, action),
+    user: userReducer(state.user, action),
+    joke: jokeReducer(state.joke, action),
+  );
 }
 
 // 暴露全局store
-Store store =
-    new Store<AppState>(counterReducer, initialState: AppState.initialState());
+Store store = new Store<AppState>(_reducer,
+    initialState: AppState.initialState(), middleware: [thunkMiddleware]);
 
-//void example() async {
-//  const string = "Java, android, ios, get the same result by DES encryption and decryption.";
-//  const key = "u1BvOHzUOcklgNpn1MaWvdn9DT4LyzSX";
-//  const iv = "12345678";
-//
-//  var encrypt = await FlutterDes.encrypt(string, key, iv: iv);
-//  var decrypt = await FlutterDes.decrypt(encrypt, key, iv: iv);
-//  var encryptHex = await FlutterDes.encryptToHex(string, key, iv: iv);
-//  var decryptHex = await FlutterDes.decryptFromHex(encryptHex, key, iv: iv);
-//  var encryptBase64 = await FlutterDes.encryptToBase64(string, key, iv: iv);
-//  var decryptBase64 = await FlutterDes.decryptFromBase64(encryptBase64, key, iv: iv);
-//}
+// connect接口，快速连接Store
+typedef MapStateToPropsCallback<S> = void Function(
+  Store<AppState> store,
+);
+typedef BaseViewModelBuilder<ViewModel> = Widget Function(
+  BuildContext context,
+  ViewModel vm,
+  Store<AppState> store,
+);
+
+Widget connect(
+    MapStateToPropsCallback mapStateToProps, BaseViewModelBuilder builder) {
+  return StoreConnector<AppState, dynamic>(
+    converter: mapStateToProps,
+    builder: (context, props) {
+      return builder(context, props, store);
+    },
+  );
+}

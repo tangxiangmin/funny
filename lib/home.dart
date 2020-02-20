@@ -7,6 +7,9 @@ import 'package:flutter_app/app/view/my.dart';
 import 'package:flutter_app/app/view/message.dart';
 import 'package:flutter_app/app/view/topic.dart';
 
+import './store/index.dart';
+import './store/module/user.dart';
+
 const TAB_INDEX = {
   'home': 0,
   'topic': 1,
@@ -27,6 +30,8 @@ class HomeState extends State<FunApp> with SingleTickerProviderStateMixin {
   @override
   void initState() {
     super.initState();
+
+    store.dispatch(localLoginAction); // 获取本地登录信息
 
     _controller =
         TabController(initialIndex: _currentIndex, length: 4, vsync: this);

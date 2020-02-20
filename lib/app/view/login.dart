@@ -13,6 +13,8 @@ import 'package:flutter_app/app/util/layer.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import 'package:flutter_app/enum/storage.dart';
+import 'package:flutter_app/store/index.dart';
+import 'package:flutter_app/store/module/user.dart';
 
 class LoginPage extends StatefulWidget {
   @override
@@ -28,42 +30,21 @@ class _LoginPageState extends State<LoginPage> {
     print("password:$password");
   }
 
-  void loginSuccess(){
-      Navigator.push(
-        context,
-        new MaterialPageRoute(builder: (context) => new FunApp()),
-      );
+  void loginSuccess() {
+    Navigator.push(
+      context,
+      new MaterialPageRoute(builder: (context) => new FunApp()),
+    );
   }
+
+  void submit() async {
+    store.dispatch(loginAction(
+        username: username, password: password, success: loginSuccess));
+  }
+
   @override
   Widget build(BuildContext context) {
     const baseColor = Color.fromRGBO(254, 110, 110, 1);
-
-    void submit() async {
-      try {
-        var response = await HttpUtil.dio.get("/login");
-        if (response.data != null) {
-          LoginModel.login res = LoginModel.login.fromJson(response.data);
-          if (res.code == 0) {
-            LoginModel.Data data = res.data;
-
-            SharedPreferences prefs = await SharedPreferences.getInstance();
-            prefs.setString(LocalStorage.loginToken, data.token);
-            prefs.setString(LocalStorage.uid, data.uid.toString());
-
-            loginSuccess();
-          } else {
-            Layer.toast(res.message);
-          }
-        }else {
-          throw "请求失败";
-        }
-      } catch (e) {
-        print(e);
-        Layer.toast("网络错误，请稍后重试");
-      }
-
-      
-    }
 
     Widget page = Column(
       crossAxisAlignment: CrossAxisAlignment.start,
