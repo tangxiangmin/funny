@@ -129,7 +129,6 @@ class _MyPage extends StatelessWidget {
         ],
       ),
     );
-    print('rebuild');
 
     return connect((store) {
       return store.state.user.userInfo;

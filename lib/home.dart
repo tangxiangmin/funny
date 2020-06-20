@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
 
 import 'package:flutter_app/app/components/iconTab.dart';
-
-import 'package:flutter_app/app/view/index.dart';
 import 'package:flutter_app/app/view/my.dart';
 import 'package:flutter_app/app/view/message.dart';
 import 'package:flutter_app/app/view/topic.dart';
+import 'package:flutter_app/app/view/paint.dart';
+import 'package:flutter_app/app/view/webview.dart';
+import 'package:flutter_app/app/view/demo.dart';
 
 import './store/index.dart';
 import './store/module/user.dart';
@@ -22,14 +23,27 @@ class FunApp extends StatefulWidget {
   HomeState createState() => HomeState();
 }
 
-class HomeState extends State<FunApp> with SingleTickerProviderStateMixin {
+class HomeState extends State<FunApp> with SingleTickerProviderStateMixin,WidgetsBindingObserver {
   int _currentIndex = 0;
   TabController _controller;
   VoidCallback onChanged;
+  BuildContext _context;
+
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    print(state);
+
+    var route = ModalRoute.of(_context);
+    if(route!=null){
+      print(route.settings.name);
+    }
+
+  }
 
   @override
   void initState() {
     super.initState();
+    WidgetsBinding.instance.addObserver(this);
 
     store.dispatch(localLoginAction); // 获取本地登录信息
 
@@ -53,6 +67,7 @@ class HomeState extends State<FunApp> with SingleTickerProviderStateMixin {
 
   @override
   Widget build(BuildContext context) {
+    _context = context;
     Widget body = Scaffold(
         bottomNavigationBar: TabBar(
           controller: _controller,
@@ -87,7 +102,9 @@ class HomeState extends State<FunApp> with SingleTickerProviderStateMixin {
         ),
         body: TabBarView(
           children: <Widget>[
-            IndexPage(),
+            DemoPage(),
+//            PaintPage(),
+//            IndexPage(),
             TopicPage(),
             MessagePage(),
             MyPage(),
