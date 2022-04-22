@@ -3,18 +3,18 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 
-import 'package:flutter_app/app/components/share.dart';
+import 'package:flutter_app/components/share.dart';
 import 'package:flutter_app/enum/iconfont.dart';
 
-import 'package:flutter_app/app/view/login.dart';
-import 'package:flutter_app/app/view/myPost.dart';
-import 'package:flutter_app/app/view/setting.dart';
-import 'package:flutter_app/app/view/advice.dart';
+import 'package:flutter_app/view/login.dart';
+import 'package:flutter_app/view/myPost.dart';
+import 'package:flutter_app/view/setting.dart';
+import 'package:flutter_app/view/advice.dart';
 
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter_app/enum/storage.dart';
-import 'package:flutter_app/app/api/base.dart';
-import 'package:flutter_app/app/model/user_info.dart' as UserInfoModel;
+import 'package:flutter_app/api/base.dart';
+import 'package:flutter_app/model/user_info.dart' as UserInfoModel;
 
 import '../../store/index.dart';
 import '../../store/module/user.dart';
@@ -88,13 +88,6 @@ class _MyPage extends StatelessWidget {
           createListItem(
               icon: IconFont.post,
               text: '帖子',
-              onTap: () {
-                Navigator.push(
-                    context, MaterialPageRoute(builder: (context) => MyPost()));
-              }),
-          createListItem(
-              icon: IconFont.comment,
-              text: '评论',
               onTap: () {
                 Navigator.push(
                     context, MaterialPageRoute(builder: (context) => MyPost()));

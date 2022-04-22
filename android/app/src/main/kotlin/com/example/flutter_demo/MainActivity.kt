@@ -1,4 +1,4 @@
-package com.shymean.funny
+package com.example.flutter_demo
 
 import io.flutter.embedding.android.FlutterActivity
 

@@ -1,5 +1,5 @@
 import 'dart:async';
-import './base.dart';
+import 'base.dart';
 
 // 获取笑话列表
 Future fetchJokeList() async {

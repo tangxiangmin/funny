@@ -21,11 +21,10 @@ Mock.mock(/userInfo/, {
     message: 'success',
     data: {
         "uid|10000-99999": 1,
-        avatar:
-            "http://imgold.doufu.la/e3/63/7d2421e0c018f7bb52428e7f9f.png",
+        avatar: '',
         nickname: "橙红年代",
-        "likeNum|1-10":1,
-        "fansNum|1-199":1,
+        "likeNum|1-10": 1,
+        "fansNum|1-199": 1,
         "focusNum|1-5": 1,
     }
 })

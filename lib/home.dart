@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 
-import 'package:flutter_app/app/components/iconTab.dart';
-import 'package:flutter_app/app/view/my.dart';
-import 'package:flutter_app/app/view/message.dart';
-import 'package:flutter_app/app/view/topic.dart';
-import 'package:flutter_app/app/view/paint.dart';
-import 'package:flutter_app/app/view/webview.dart';
-import 'package:flutter_app/app/view/demo.dart';
+import 'package:flutter_app/components/iconTab.dart';
+import 'package:flutter_app/view/my.dart';
+import 'package:flutter_app/view/message.dart';
+import 'package:flutter_app/view/topic.dart';
+import 'package:flutter_app/view/paint.dart';
+import 'package:flutter_app/view/webview.dart';
+import 'package:flutter_app/view/demo.dart';
 
 import './store/index.dart';
 import './store/module/user.dart';

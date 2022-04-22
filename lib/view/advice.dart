@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import 'package:flutter_app/app/components/form.dart';
+import 'package:flutter_app/components/form.dart';
 
 class AdvicePage extends StatelessWidget {
   @override
@@ -15,9 +15,9 @@ class AdvicePage extends StatelessWidget {
             Container(
               padding: EdgeInsets.only(left: 20, right: 20, top: 20),
               child: CommonInput(
-                text: "请输入你要反馈的问题...",
-                maxLines: 5,
-              ),
+                  text: "请输入你要反馈的问题...", maxLines: 5, onChanged: (val) {
+                    print(val);
+              }),
             ),
             Container(
               padding:
@@ -51,10 +51,7 @@ class AdvicePage extends StatelessWidget {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.center,
                       mainAxisAlignment: MainAxisAlignment.center,
-                      children: <Widget>[
-                        Image.network(
-                            "http://imgold.doufu.la/e3/63/7d2421e0c018f7bb52428e7f9f.png")
-                      ],
+
                     ),
                   )
                 ],
@@ -62,9 +59,11 @@ class AdvicePage extends StatelessWidget {
             ),
             Container(
               padding: EdgeInsets.all(20),
-              child: CommonButton(text: "提交反馈", onPressed:(){
-                print("点击提交反馈");
-              }),
+              child: CommonButton(
+                  text: "提交反馈",
+                  onPressed: () {
+                    print("点击提交反馈");
+                  }),
             )
           ],
         ));

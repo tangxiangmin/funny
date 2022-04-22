@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_app/home.dart';
 
-import 'package:flutter_app/app/components/form.dart';
+import 'package:flutter_app/components/form.dart';
 import 'package:flutter_app/enum/iconfont.dart';
 
 import 'package:flutter_app/enum/color.dart';
-import 'package:flutter_app/app/api/base.dart';
+import 'package:flutter_app/api/base.dart';
 
-import 'package:flutter_app/app/model/login.dart' as LoginModel;
-import 'package:flutter_app/app/util/layer.dart';
+import 'package:flutter_app/model/login.dart' as LoginModel;
+import 'package:flutter_app/util/layer.dart';
 
 import 'package:shared_preferences/shared_preferences.dart';
 

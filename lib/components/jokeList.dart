@@ -1,8 +1,8 @@
 import "package:flutter/material.dart";
 import 'package:flutter_redux/flutter_redux.dart';
 
-import 'package:flutter_app/app/view/detail.dart';
-import 'package:flutter_app/app/item/jokeItem.dart';
+import 'package:flutter_app/view/detail.dart';
+import 'package:flutter_app/item/jokeItem.dart';
 
 import '../../store/module/joke.dart' as Joke;
 import '../../store/index.dart';

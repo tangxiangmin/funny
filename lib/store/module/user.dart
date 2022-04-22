@@ -1,9 +1,9 @@
-import 'package:flutter_app/app/model/login.dart' as LoginModel;
-import 'package:flutter_app/app/model/user_info.dart' as UserInfoModel;
+import 'package:flutter_app/model/login.dart' as LoginModel;
+import 'package:flutter_app/model/user_info.dart' as UserInfoModel;
 
 import 'package:redux/redux.dart';
 
-import 'package:flutter_app/app/api/auth.dart';
+import 'package:flutter_app/api/auth.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class LocalStorage {

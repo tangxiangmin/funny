@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_app/app/model/joke_list.dart' as JokeListModel;
+import 'package:flutter_app/model/joke_list.dart' as JokeListModel;
 
 import 'package:flutter_app/enum/iconfont.dart';
-import 'package:flutter_app/app/components/share.dart';
+import 'package:flutter_app/components/share.dart';
 
 class JokeItem extends StatefulWidget {
   final JokeListModel.Data joke;

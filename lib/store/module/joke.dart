@@ -1,7 +1,7 @@
 import 'package:redux/redux.dart';
 
-import 'package:flutter_app/app/model/joke_list.dart' as JokeListModel;
-import 'package:flutter_app/app/api/joke.dart';
+import 'package:flutter_app/model/joke_list.dart' as JokeListModel;
+import 'package:flutter_app/api/joke.dart';
 
 class JokeState {
   List<JokeListModel.Data> jokes;

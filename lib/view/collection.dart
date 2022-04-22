@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 
-import 'package:flutter_app/app/components/jokeList.dart';
+import 'package:flutter_app/components/jokeList.dart';
 
 class CollectionPage extends StatelessWidget {
   CollectionPage({Key key}) : super(key: key);

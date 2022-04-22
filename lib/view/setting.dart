@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 
-import 'package:flutter_app/app/components/form.dart';
-import 'package:flutter_app/app/view/login.dart';
-import 'package:flutter_app/app/util/rem.dart';
+import 'package:flutter_app/components/form.dart';
+import 'package:flutter_app/view/login.dart';
+
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class SetPage extends StatefulWidget {
   SetPage({Key key}) : super(key: key);
@@ -53,7 +54,7 @@ class _SetPageState extends State<SetPage> {
           color: Colors.grey,
         ),
         Container(
-            margin: EdgeInsets.only(top: Adapt.px(50)),
+            margin: EdgeInsets.only(top: 50.w),
             child: CommonButton(
               text: "退出登录",
               onPressed: () {
@@ -71,7 +72,7 @@ class _SetPageState extends State<SetPage> {
           title: Text('设置'),
         ),
         body: Container(
-          padding: EdgeInsets.only(left: Adapt.px(20), right: Adapt.px(20)),
+          padding: EdgeInsets.only(left: 20.w, right: 20.w),
           child: page,
         ));
   }

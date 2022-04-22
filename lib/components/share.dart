@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_app/app/util/rem.dart';
+import 'package:flutter_app/util/rem.dart';
 import 'package:flutter_app/enum/iconfont.dart';
 import 'package:flutter_app/enum/color.dart';
 
