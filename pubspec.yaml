@@ -18,22 +18,22 @@ dependencies:
   http: any
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
-  cupertino_icons: ^0.1.2
-  dio: ^1.0.13 # 网络请求库
-  json_annotation: ^2.0.0 # 解析json
-  fluttertoast: ^2.2.3 # toast插件
+  cupertino_icons: ">=0.1.2 <2.0.0"
+  dio: ">=1.0.13 <6.0.0" # 网络请求库
+  json_annotation: ">=2.0.0 <5.0.0" # 解析json
+  fluttertoast: ">=2.2.3 <9.0.0" # toast插件
   shared_preferences: ^2.0.0 # 本地存储
   redux: ^5.0.0
-  flutter_redux: ^0.9.0
+  flutter_redux: ">=0.9.0 <0.11.0"
   redux_thunk: ^0.4.0
-  webview_flutter: ^0.3.22+1
-  flutter_screenutil: 5.3.0
+  webview_flutter: ">=0.3.22+1 <5.0.0"
+  flutter_screenutil: ^5.3.0
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
-  build_runner: ^1.0.0
-  json_serializable: ^2.0.0
+  build_runner: ">=1.0.0 <3.0.0"
+  json_serializable: ">=2.0.0 <7.0.0"
 
 
 # For information on the generic Dart part of this file, see the
